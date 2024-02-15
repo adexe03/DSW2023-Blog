@@ -30,8 +30,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::resource('posts', 'App\Http\Controllers\PostController')->middleware('auth');
-Route::get('/posts/{id}/read', [PostController::class, 'read'])->name('posts.read');
-Route::post('/posts/{post}/vote', [PostController::class, 'vote'])->name('posts.vote')->middleware('auth');
-
 require __DIR__ . '/auth.php';
+
+Route::get('/posts/{id}/read', [PostController::class, 'read'])->name('posts.read');
+Route::resource('posts', PostController::class)->middleware('auth');
+Route::post('/posts/{post}/vote', [PostController::class, 'vote'])->name('posts.vote')
+    ->middleware('auth');

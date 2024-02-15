@@ -17,7 +17,6 @@ class PostController extends Controller
         return view('posts.index', compact('posts'));
     }
 
-
     /**
      * Show the form for creating a new resource.
      */
@@ -25,7 +24,6 @@ class PostController extends Controller
     {
         return view('posts.create');
     }
-
 
     /**
      * Store a newly created resource in storage.
@@ -39,7 +37,6 @@ class PostController extends Controller
             'published_at' => 'required|date',
         ]);
 
-
         $post = new Post();
         $post->user_id = Auth::id();
         $post->title = $request->title;
@@ -48,11 +45,8 @@ class PostController extends Controller
         $post->published_at = $request->published_at;
         $post->save();
 
-
-        return redirect()->route('posts.index')
-            ->with('success', 'Publicación creada correctamente');
+        return redirect()->route('posts.index')->with('success', 'Publicación creada correctamente');
     }
-
 
     /**
      * Display the specified resource.
@@ -61,7 +55,6 @@ class PostController extends Controller
     {
         return view('posts.show', compact('post'));
     }
-
 
     /**
      * Show the form for editing the specified resource.
@@ -102,7 +95,6 @@ class PostController extends Controller
             ->take(5)
             ->get();
 
-
         $otherPosts = Post::select('id', 'title', 'published_at', 'user_id')
             ->where('published_at', '<=', \Carbon\Carbon::today())
             ->orderByDesc('published_at')
@@ -110,7 +102,7 @@ class PostController extends Controller
             ->take(20)
             ->get();
 
-        return view('welcome', compact('firstPosts', 'otherPosts'));
+        return view('home', compact('firstPosts', 'otherPosts'));
     }
 
     public function read(int $id)
@@ -124,10 +116,10 @@ class PostController extends Controller
         // Comprobamos que no haya votado ya.
         $vote = $post->votedUsers()->find(Auth::id());
         if (!$vote) {
-            // Si no ha votado, lo añadimos.
+            // Si no ha votado, lo añadimos. 
             $post->votedUsers()->attach(Auth::id());
         } else {
-            // Si ha votado, lo eliminamos.
+            // Si ha votado, lo eliminamos. 
             $post->votedUsers()->detach(Auth::id());
         }
         return redirect()->back();

@@ -30,7 +30,6 @@
                         </form>
                         @endauth
                     </h2>
-
                     <p class="italic m-3 text-xl text-gray-800 font-semibold">
                         {{ $post->summary }}
                     </p>
